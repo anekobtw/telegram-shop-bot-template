@@ -31,9 +31,9 @@ Install the required Python packages using pip:\
 `pip install aiogram`
 
 ## Configuration
-Replace BOT_TOKEN in the code with your Telegram bot token.
+Replace `BOT_TOKEN` in the code with your Telegram bot token.
 
-Set the web_app_info variable to the URL of your Telegram web app (e.g., https://yourwebsite.com/index.html).
+Set the `web_app_info` variable to the URL of your Telegram web app (e.g., https://yourwebsite.com/index.html).
 
 ## License
 This project is licensed under the MIT License
