@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Monsterrat:wght@200;500&display=swap');
+
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monsterrat', sans-serif;
+            font-weight: 200;
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
+        }
+
+        #main {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 50px;
+            margin-bottom: 10px;
+        }
+
+        img {
+            width: 70px;
+            margin: 30px auto;
+        }
+
+        p {
+            width: 350px;
+            margin: 0 auto;
+        }
+
+        button {
+            border: 0;
+            border-radius: 5px;
+            margin-top: 50px;
+            height: 60px;
+            width: 200px;
+            font-size: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 500ms ease;
+            color: var(--tg-theme-button-color);
+            background: var(--tg-theme-button-text-color);
+        }
+
+        button:hover {
+            background: var(--tg-theme-secondary-bg-color);
+        }
+
+        #form {
+            display: none;
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            outline: none;
+            margin: 10px 5%;
+            padding: 15px 10px;
+            font-size: 14px;
+            border: 2px solid silver;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            border-color: #db5d5d;
+        }
+
+        input::-webkit-input-placeholder {
+            font-size: 25px;
+            line-height: 4;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>zverskly bot</h1>
+        <p>Developer: @anekobtw</p>
+        <button id="buy">Заказать товар</button>
+    </div>
+    
+    <form id="form" style="display: none;">
+        <h1>Оформление покупки</h1>
+        <input type="text" placeholder="Ваш никнейм в YouTube" id="yt_nickname_input">
+        <p>Есть следующие товары: <br>
+    • Аватарка - 349₽ <br>
+    • Баннер - 499₽ <br>
+    • Превью - 199₽ <br>
+    • Превью для уровня - 399₽ <br>
+    • Обложка для альбома - 499₽ <br>
+    • Оформление (ава + шапка) - 649₽ <br>
+    • Оформление паблика (ава + баннер + виджеты и т.п.) - 799₽</p>
+        <input type="text" placeholder="Товар" id="order_type_input">
+        <input type="text" placeholder="ТЗ" id="TA_input">
+        <p>Хотите приобрести премиум очередь? +200руб. к стоимости заказа</p>
+        <input type="text" placeholder="Да/Нет" id="is_premium_input">
+        <button id="order">Оформить</button>
+    </form>
+
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let tg = window.Telegram.WebApp;
+            let yt_nickname = document.getElementById("yt_nickname_input");
+            let order_type = document.getElementById("order_type_input");
+            let TA = document.getElementById("TA_input");
+            let is_premium = document.getElementById("is_premium_input");
+
+            tg.expand();
+
+            document.getElementById("buy").addEventListener("click", () => {
+                document.getElementById("main").style.display = "none";
+                document.getElementById("form").style.display = "block";
+            })
+
+            document.getElementById("order").addEventListener("click", () => {
+                const data = {
+                    yt_nickname: yt_nickname.value,
+                    order_type: order_type.value,
+                    TA: TA.value,
+                    is_premium: is_premium.value
+                };
+
+                tg.sendData(JSON.stringify(data));
+                tg.close();
+            });
+        });
+    </script>
+</body>
+</html>
