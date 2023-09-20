@@ -2,17 +2,17 @@
  A telegram bot for zverskly. It was made to order.
 
 # Available Commands
-`/start:` Start a conversation and access various features.\
-`/links:` Display links to social media.\
-`/developer:` Get information about the bot's developer.\
-`/orders [status]:` View orders based on their status (e.g., /orders 0 to view orders in "Waiting for Acceptance" status).\
-`/change_status [order_id] [new_status]:` Change the status of an order (admin only).\
-`/next:` View the first order in the database.\
-`/order:` Start the process of placing a new order.\
-`/my_orders:` View your own orders.\
-`/cancel_order [order_id]:` Cancel an order (admin only).\
-`/review [text]:` Submit a review.\
-`/reviews:` View all submitted reviews.
+`/start`: Start a conversation and access various features.\
+`/links`: Display links to social media.\
+`/developer`: Get information about the bot's developer.\
+`/orders [status]`: View orders based on their status (e.g., /orders 0 to view orders in "Waiting for Acceptance" status).\
+`/change_status [order_id] [new_status]`: Change the status of an order (admin only).\
+`/next`: View the first order in the database.\
+`/order`: Start the process of placing a new order.\
+`/my_orders`: View your own orders.\
+`/cancel_order [order_id]`: Cancel an order (admin only).\
+`/review [text]`: Submit a review.\
+`/reviews`: View all submitted reviews.
 
 ## Prerequisites
 Before you can run this project, you need to have the following prerequisites in place:
