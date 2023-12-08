@@ -1,4 +1,6 @@
 # zverskly bot
+ upd 08/12/2023: what a shit code I was writing lol
+
  A telegram bot for zverskly. It was made to order.
 
 # Available Commands
