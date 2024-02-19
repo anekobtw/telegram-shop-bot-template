@@ -96,18 +96,28 @@
     <form id="form" style="display: none;">
         <h1>Оформление покупки</h1>
         <input type="text" placeholder="Ваш никнейм в YouTube" id="yt_nickname_input">
-        <p>Есть следующие товары: <br>
-    • Аватарка - 349₽ <br>
-    • Баннер - 499₽ <br>
-    • Превью - 199₽ <br>
-    • Превью для уровня - 399₽ <br>
-    • Обложка для альбома - 499₽ <br>
-    • Оформление (ава + шапка) - 649₽ <br>
-    • Оформление паблика (ава + баннер + виджеты и т.п.) - 799₽</p>
+        
+        <p><strong>Прайс-лист:</strong><br>
+        • Превью - 599₽ <br>
+        • Аватарка - 599₽ <br>
+        • Баннер - 899₽ <br>
+        • Эндскрин - 999₽ <br>
+        • Оформление - 1299₽ <br>
+        • Фирменный стиль - от 2999₽ <br>
+        • TURBO-режим - цена товара х2 <br>
+        • GFX PACK 13GB 9000+ files - 499₽ <br>
+        • Реклама - 499₽ <br> <br>
+        <strong>FAQ:</strong>
+        Если вы владелец ютуб/тг канала с аудиторией, то можем договориться по поводу сотрудничества (уже сотрудничаю с lintery, eiriley, dolphy, n1ckxd и т.д). <br>
+        TURBO-режим - перемещение вашего заказа на первую позицию в очереди <br>
+        Деньги не возвращаем. <br>
+        <strong>!!ТЗ - ТЕХНИЧЕСКОЕ ЗАДАНИЕ!!</strong></p>
+        
         <input type="text" placeholder="Товар" id="order_type_input">
+        
         <input type="text" placeholder="ТЗ" id="TA_input">
-        <p>Хотите приобрести премиум очередь? +200руб. к стоимости заказа</p>
-        <input type="text" placeholder="Да/Нет" id="is_premium_input">
+        <p>Хотите приобрести TURBO-режим? Стоимость заказа x2</p>
+        <input type="text" placeholder="Да/Нет" id="is_turbo_input">
         <button id="order">Оформить</button>
     </form>
 
@@ -119,7 +129,7 @@
             let yt_nickname = document.getElementById("yt_nickname_input");
             let order_type = document.getElementById("order_type_input");
             let TA = document.getElementById("TA_input");
-            let is_premium = document.getElementById("is_premium_input");
+            let is_turbo = document.getElementById("is_turbo_input");
 
             tg.expand();
 
@@ -133,7 +143,7 @@
                     yt_nickname: yt_nickname.value,
                     order_type: order_type.value,
                     TA: TA.value,
-                    is_premium: is_premium.value
+                    is_turbo: is_turbo.value
                 };
 
                 tg.sendData(JSON.stringify(data));
