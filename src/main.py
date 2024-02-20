@@ -1,8 +1,10 @@
+import logging
+
 from aiogram import Bot, types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils import executor
+from aiogram.utils.callback_data import CallbackData
 
 import config
 import database
@@ -13,9 +15,9 @@ admins = {1718021890}
 
 
 # <<< Initializing >>>
-storage = MemoryStorage()
 bot = Bot(token=config.BOT_TOKEN)
-dp = Dispatcher(bot, storage=storage)
+dp = Dispatcher(bot)
+logging.basicConfig(level=logging.INFO, filename='log.txt')
 
 async def notify_admins_order(order_id: int) -> None:
     for admin_id in admins:

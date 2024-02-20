@@ -1,12 +1,5 @@
-BOT_TOKEN = '5749937136:AAGGbynTRV1cV8-ng3Kh2mkni1lsPEpt8eE'
+BOT_TOKEN = ''
 VERSION = 'beta 1.2'
-
-tf_states = {
-    1: '✅',
-    True: '✅',
-    0: '❌',
-    False: '❌'
-}
 
 currency = '$'
 
