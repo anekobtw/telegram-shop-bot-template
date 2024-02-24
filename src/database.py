@@ -2,87 +2,89 @@ import sqlite3
 import time
 from datetime import datetime
 
-con = sqlite3.connect('database.db')
-cur = con.cursor()
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS orders (
-        order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        tgid INT,
-        tg_nickname TEXT,
-        product TEXT,
-        status INT,
-        timestamp DATETIME
-    )
+
+class Order:
+    def __init__(self, order_id, tgid, tg_nickname, product, is_open, timestamp):
+        """Initialize an order object with provided attributes"""
+        self.order_id = order_id
+        self.tgid = tgid
+        self.tg_nickname = tg_nickname
+        self.product = product
+        self.is_open = is_open
+        self.timestamp = timestamp
+
+    @property
+    def formatted_timestamp(self):
+        """Return the timestamp in a formatted string (YYYY-MM-DD HH:MM:SS)"""
+        return datetime.fromtimestamp(self.timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+class OrderManager:
+    DATABASE_FILE = 'database.db'
+    TIMEZONE_OFFSET = 0  # Assuming offset in seconds
+
+    def __init__(self):
+        """Initialize the OrderManager instance by connecting to the database and creating a cursor"""
+        self.connection = sqlite3.connect(self.DATABASE_FILE)
+        self.cursor = self.connection.cursor()
+
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS orders (
+            order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tgid INT,
+            tg_nickname TEXT,
+            product TEXT,
+            is_open INTEGER,
+            timestamp DATETIME
+        )
+        """)
+        self.connection.commit()
+
+    def get_active_orders(self):
+        """Retrieve all active orders (orders that are not completed) from the database"""
+        self.cursor.execute('SELECT * FROM orders WHERE is_open = 1')
+        return self.cursor.fetchall()
+
+    def get_order_by_id(self, order_id):
+        """Get the information about exact order by knowing only its ID"""
+        self.cursor.execute('SELECT * FROM orders WHERE order_id = ?', (order_id,))
+        return self.cursor.fetchone()
+
+    def insert_order(self, tgid, tg_nickname, product):
+        """Insert a new order into the database with the provided details and mark it as open"""
+        timestamp = round(time.time()) + self.TIMEZONE_OFFSET
+        values = (tgid, tg_nickname, product, 1, timestamp)
+        self.cursor.execute("INSERT INTO orders(tgid, tg_nickname, product, is_open, timestamp) VALUES (?, ?, ?, ?, ?)", values)
+        self.connection.commit()
+
+    def delete_order(self, order_id):
+        """Delete the order"""
+        self.cursor.execute('DELETE FROM orders WHERE order_id = ?', (order_id,))
+        self.connection.commit()
+
+    def close_connection(self):
+        self.connection.close()
+
+
+if __name__ == '__main__':
+    # Example usage:
+    order_manager = OrderManager()
+
+    # Generating 10 random orders
+    import random
+    for i in range(10):
+        order_manager.insert_order(random.randint(10000, 99999), 'anekobtw', 'design')
+
+    # Getting data about all of them and writing it down in all_orders.txt
+    all_orders_data = order_manager.get_active_orders()
+
+    for order_data in all_orders_data:
+        order_obj = Order(*order_data)
+        with open('all_orders.txt', 'a') as f:
+            f.write(f"""Order ID: {order_obj.order_id}
+Telegram ID: {order_obj.tgid}
+Telegram Nickname: {order_obj.tg_nickname}
+Product: {order_obj.product}
+Date and Time of Purchase: {order_obj.formatted_timestamp}
+
 """)
 
-
-# <<< Getters >>>
-def get_all(order_id: int = None, tgid: int = None) -> list:
-    if order_id:
-        res = cur.execute('SELECT * FROM orders WHERE order_id = ?', (order_id,))
-        return res.fetchall()[0]
-    elif tgid:
-        res = cur.execute('SELECT * FROM orders WHERE tgid = ?', (tgid,))
-        return res.fetchall()[0]
-
-def get_tgid(order_id: int) -> int:
-    res = cur.execute("SELECT tgid FROM orders WHERE order_id=?", (order_id,))
-    return res.fetchone()[0]
-
-def get_tg_nickname(order_id: int) -> str:
-    res = cur.execute("SELECT tg_nickname FROM orders WHERE order_id=?", (order_id,))
-    return res.fetchone()[0]
-
-def get_product(order_id: int) -> str:
-    res = cur.execute("SELECT product FROM orders WHERE order_id=?", (order_id,))
-    return res.fetchone()[0]
-
-def get_status(order_id: int) -> int:
-    res = cur.execute("SELECT status FROM orders WHERE order_id=?", (order_id,))
-    return res.fetchone()[0]
-
-def get_timestamp(order_id: int) -> int:
-    res = cur.execute("SELECT timestamp FROM orders WHERE order_id=?", (order_id,))
-    return res.fetchone()[0]
-
-
-# <<< Useful functions >>>
-def first_order() -> list:
-    orders = cur.execute('SELECT * FROM orders').fetchall()
-    for order in orders:
-        if place_in_queue(order[0]) == 1:
-            return get_order_info(order)
-    return 'No orders yet.'
-
-def place_in_queue(order_id: int) -> int:
-    all_orders = cur.execute('SELECT order_id FROM orders WHERE status = 1').fetchall()
-    my_order_status = cur.execute('SELECT status FROM orders WHERE order_id = ?', (order_id,)).fetchone()[0]
-
-    if my_order_status == 1:
-        return all_orders.index((order_id,)) + 1
-
-def user_latest_order_id(tgid: int) -> int:
-    res = cur.execute('SELECT * FROM orders WHERE tgid=?', (tgid,))
-    return int(res.fetchall()[-1][0])
-
-def get_order_info(order: list) -> str:
-    info_text = f'''Order id: {order[0]}
-Telegram id: {order[1]}
-Telegram nickname: {order[2]}
-Product: {order[3]}
-Date and time of purchase: {datetime.fromtimestamp(order[5])}
-
-Place in queue: {place_in_queue(order[0])}
-'''
-
-    return info_text
-
-# <<< Others >>>
-def insert(tgid: int, tg_nickname: str, product: str) -> None:
-    values = (tgid, tg_nickname, product, 0, round(time.time() + 14400))
-    cur.execute("INSERT INTO orders(tgid, tg_nickname, product, status, timestamp) VALUES (?, ?, ?, ?, ?)", values)
-    con.commit()
-
-def delete(order_id: int) -> None:
-    cur.execute('DELETE FROM orders WHERE order_id = ?', (order_id,))
-    con.commit()
+    order_manager.close_connection()
