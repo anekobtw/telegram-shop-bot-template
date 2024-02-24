@@ -3,6 +3,8 @@
 
  A telegram bot for zverskly. It was made to order.
 
+[![codecov](https://codecov.io/gh/anekobtw/zverskly-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/zverskly-bot)
+
 # Available Commands
 `/start`: Start a conversation and access various features.\
 `/links`: Display links to social media.\
