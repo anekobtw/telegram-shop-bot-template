@@ -12,6 +12,3 @@ Replace `BOT_TOKEN` in the code with your Telegram bot token in `config.py`.
 
 ## Contributing
 Contributions are always welcome! If you have any suggestions, feature requests, or bug reports, please feel free to open an issue on the [GitHub repository](https://github.com/anekobtw/timewise).
-
-## License
-This project is licensed under the MIT License
