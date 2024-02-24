@@ -1,49 +1,17 @@
-# zverskly bot
- upd 08/12/2023: what a shit code I was writing lol
-
- A telegram bot for zverskly. It was made to order.
-
+# Telegram shop bot
+![licence](https://img.shields.io/badge/License-MIT-green.svg)
+![version](https://img.shields.io/badge/Version-not_released-blue)
+![made with love](https://img.shields.io/badge/Made_with-Love-red)
 [![codecov](https://codecov.io/gh/anekobtw/zverskly-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/zverskly-bot)
 
-# Available Commands
-`/start`: Start a conversation and access various features.\
-`/links`: Display links to social media.\
-`/developer`: Get information about the bot's developer.\
-`/orders [status]`: View orders based on their status (e.g., /orders 0 to view orders in "Waiting for Acceptance" status).\
-`/change_status [order_id] [new_status]`: Change the status of an order (admin only).\
-`/next`: View the first order in the database.\
-`/order`: Start the process of placing a new order.\
-`/my_orders`: View your own orders.\
-`/cancel_order [order_id]`: Cancel an order (admin only).\
-`/review [text]`: Submit a review.\
-`/reviews`: View all submitted reviews.
-
-## Prerequisites
-Before you can run this project, you need to have the following prerequisites in place:
-
-Python 3.7 or higher\
-[aiogram](https://github.com/aiogram/aiogram) library\
-MemoryStorage from aiogram\
-A Telegram bot token\
-A Telegram web app URL (for handling web app data)
-
-## Installation
-Clone the project repository:\
-`git clone https://github.com/anekobtw/zverskly-bot`
-
-Install the required Python packages using pip:\
-`pip install aiogram`
-
 ## Configuration
-Replace `BOT_TOKEN` in the code with your Telegram bot token.
+Replace `BOT_TOKEN` in the code with your Telegram bot token in `config.py`.
 
-Set the `web_app_info` variable to the URL of your Telegram web app (e.g., https://yourwebsite.com/index.html).
+## Acknowledgements
+ - [aiogram](https://github.com/aiogram/aiogram) - A modern and fully asynchronous framework for Telegram Bot API written in Python using asyncio 
+
+## Contributing
+Contributions are always welcome! If you have any suggestions, feature requests, or bug reports, please feel free to open an issue on the [GitHub repository](https://github.com/anekobtw/timewise).
 
 ## License
 This project is licensed under the MIT License
-
-## Contact
-If you have any questions or need assistance, you can contact the bot developer:
-
-Telegram: [@anekobtw](https://t.me/anekobtw)\
-Thank you for using Zverskly Bot! I hope you find it useful.
