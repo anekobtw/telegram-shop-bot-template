@@ -1,4 +1,4 @@
-BOT_TOKEN = '6946531325:AAGAaYECLoJK2rhfuRSOcZwmHUjtHZcaLrY'
+BOT_TOKEN = ''
 VERSION = 'beta 1.2'
 
 currency = '$'
