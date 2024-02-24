@@ -1,0 +1,73 @@
+admins:
+  - 1718021890
+
+logging:
+  level: INFO
+  filename: log.txt
+
+handlers:
+  - commands:
+      - start
+    function: start
+  - callback_query:
+      lambda: "c: c.data == 'order'"
+    function: process_callback_order
+  - callback_query:
+      lambda: "c: c.data == 'my_orders'"
+    function: process_callback_order
+  - callback_query:
+      lambda: "c: c.data == 'developer'"
+    function: process_callback_order
+  - commands:
+      - order
+    function: order
+  - commands:
+      - my_orders
+    function: my_orders
+  - commands:
+      - developer
+    function: developer
+  - commands:
+      - orders
+    function: orders
+  - commands:
+      - next
+    function: next
+  - commands:
+      - delete_order
+    function: delete_order
+
+commands:
+  - order
+  - my_orders
+  - developer
+  - orders
+  - next
+  - delete_order
+
+callbacks:
+  - order
+  - my_orders
+  - developer
+
+order_buttons:
+  - text: Order
+    callback_data: order
+  - text: My orders
+    callback_data: my_orders
+  - text: Developer
+    callback_data: developer
+
+developer_info:
+  name: "@anekobtw"
+  telegram_channel: "@anekobtww"
+  github: "https://github.com/anekobtw"
+
+database_functions:
+  get_all_orders_by_status: "Function to get all orders by status"
+  get_order_info: "Function to get order info"
+  get_first_order: "Function to get first order"
+  delete: "Function to delete order"
+
+if_name: "__main__"
+executor: "start_polling(dp)"

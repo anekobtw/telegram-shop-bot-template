@@ -1,0 +1,39 @@
+OrderManager:
+  DATABASE_FILE: database.db
+  TIMEZONE_OFFSET: 0
+
+Order:
+  attributes:
+    - order_id
+    - tgid
+    - tg_nickname
+    - product
+    - is_open
+    - timestamp
+  methods:
+    - formatted_timestamp
+
+__main__:
+  Example_usage:
+    - Initialize_order_manager:
+        method: OrderManager.__init__
+    - Generating_random_orders:
+        loop: for i in range(10):
+        insert_order: |
+          import random
+          order_manager.insert_order(random.randint(10000, 99999), 'anekobtw', 'design')
+    - Getting_data_and_writing_to_file:
+        get_active_orders: order_manager.get_active_orders()
+        loop: for order_data in all_orders_data:
+        write_to_file: |
+          order_obj = Order(*order_data)
+          with open('all_orders.txt', 'a') as f:
+              f.write(f"""Order ID: {order_obj.order_id}
+  Telegram ID: {order_obj.tgid}
+  Telegram Nickname: {order_obj.tg_nickname}
+  Product: {order_obj.product}
+  Date and Time of Purchase: {order_obj.formatted_timestamp}
+  
+  """)
+    - Close_connection:
+        close_connection: order_manager.close_connection()
