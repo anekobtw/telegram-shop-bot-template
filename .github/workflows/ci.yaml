@@ -1,0 +1,143 @@
+version: '1.0'
+imports:
+  - aiogram
+  - logging
+  - config
+  - database
+
+constants:
+  admins:
+    - 1718021890
+
+initializing:
+  bot: !new aiogram.Bot
+    token: ${config.BOT_TOKEN}
+  dp: !new aiogram.Dispatcher
+  logging:
+    basicConfig:
+      level: INFO
+      filename: 'log.txt'
+
+async_functions:
+  notify_admins_order:
+    params:
+      - order_id: int
+    body: |
+      for admin_id in admins:
+          await bot.send_message(chat_id=admin_id, text=f'❗ Check out a new order!\nOrder id: {order_id}\n')
+
+inline_buttons:
+  start:
+    handler: start
+    commands:
+      - command: '/start'
+        function: start
+  process_callback_order:
+    callbacks:
+      - data: 'order'
+        function: order
+      - data: 'my_orders'
+        function: my_orders
+      - data: 'developer'
+        function: developer
+
+commands:
+  order:
+    handler: order
+    commands:
+      - command: '/order'
+        function: order
+  my_orders:
+    handler: my_orders
+    commands:
+      - command: '/my_orders'
+        function: my_orders
+  developer:
+    handler: developer
+    commands:
+      - command: '/developer'
+        function: developer
+  orders:
+    handler: orders
+    commands:
+      - command: '/orders'
+        function: orders
+  next:
+    handler: next
+    commands:
+      - command: '/next'
+        function: next
+  delete_order:
+    handler: delete_order
+    commands:
+      - command: '/delete_order'
+        function: delete_order
+
+handlers:
+  message:
+    order:
+      handler: order
+      commands:
+        - command: '/order'
+          function: order
+    my_orders:
+      handler: my_orders
+      commands:
+        - command: '/my_orders'
+          function: my_orders
+    developer:
+      handler: developer
+      commands:
+        - command: '/developer'
+          function: developer
+    orders:
+      handler: orders
+      commands:
+        - command: '/orders'
+          function: orders
+    next:
+      handler: next
+      commands:
+        - command: '/next'
+          function: next
+    delete_order:
+      handler: delete_order
+      commands:
+        - command: '/delete_order'
+          function: delete_order
+
+callback_query_handlers:
+  process_callback_order:
+    data:
+      - 'order'
+      - 'my_orders'
+      - 'developer'
+
+message_handlers:
+  order:
+    commands:
+      - '/order'
+  my_orders:
+    commands:
+      - '/my_orders'
+  developer:
+    commands:
+      - '/developer'
+  orders:
+    commands:
+      - '/orders'
+  next:
+    commands:
+      - '/next'
+  delete_order:
+    commands:
+      - '/delete_order'
+
+if_block:
+  condition: '__name__ == '__main__''
+  body: |
+    executor.start_polling(dp)
+
+project_structure:
+  - database.py
+  - config.py
