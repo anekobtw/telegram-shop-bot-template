@@ -4,6 +4,8 @@
 ![made with love](https://img.shields.io/badge/Made_with-Love-red)
 [![codecov](https://codecov.io/gh/anekobtw/zverskly-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/zverskly-bot)
 
+ A telegram bot for online-shopping 
+ 
 ## Configuration
 Replace `BOT_TOKEN` in the code with your Telegram bot token in `config.py`.
 
