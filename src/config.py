@@ -1,4 +1,4 @@
-BOT_TOKEN = ''
+BOT_TOKEN = ''  #replace with your token
 VERSION = 'beta 1.3'
 
 currency = '$'
