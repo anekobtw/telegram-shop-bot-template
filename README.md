@@ -1,13 +1,42 @@
 # Telegram shop bot
 ![licence](https://img.shields.io/badge/License-MIT-green.svg)
-![version](https://img.shields.io/badge/Version-not_released-blue)
-![made with love](https://img.shields.io/badge/Made_with-Love-red)
+![version](https://img.shields.io/badge/Version-v1.3_beta-blue)
 [![codecov](https://codecov.io/gh/anekobtw/zverskly-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/zverskly-bot)
+![made with love](https://img.shields.io/badge/Made_with-Love-red)
 
  A telegram bot for online-shopping 
  
-## Configuration
-Replace `BOT_TOKEN` in the code with your Telegram bot token in `config.py`.
+## Installing
+Download the project to your local machine.
+```console
+$ git clone https://github.com/anekobtw/telegram-shop-bot.git
+```
+
+## Setting up
+Do not modify any files except `config.py`. Doing so may result in numerous bugs :)
+
+- Replace `BOT_TOKEN` with your Telegram bot token (Obtain it from [BotFather](https://web.telegram.org/k/#@BotFather)).
+```python
+BOT_TOKEN = ''  #replace with your token
+```
+
+- Change the currency you're using for selling items. (optional)
+```python
+currency = '$'
+```
+
+- Furthermore, add the products you're selling into the dictionary using the following format:\
+`'product name' - price`
+
+```python
+items = {
+    'Item1': 100,
+    'Item2': 200,
+    'Item3': 500
+}
+```
+
+Remember to restart the bot to apply the changes.
 
 ## Acknowledgements
  - [aiogram](https://github.com/aiogram/aiogram) - A modern and fully asynchronous framework for Telegram Bot API written in Python using asyncio 
