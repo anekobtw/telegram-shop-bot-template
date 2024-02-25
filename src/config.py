@@ -1,5 +1,5 @@
 BOT_TOKEN = ''
-VERSION = 'beta 1.2'
+VERSION = 'beta 1.3'
 
 currency = '$'
 

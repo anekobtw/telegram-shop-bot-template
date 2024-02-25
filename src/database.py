@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Order:
-    def __init__(self, order_id, tgid, tg_nickname, product, is_open, timestamp):
+    def __init__(self, order_id, tgid, tg_nickname, product, is_open, timestamp) -> None:
         """Initialize an order object with provided attributes"""
         self.order_id = order_id
         self.tgid = tgid
@@ -14,15 +14,16 @@ class Order:
         self.timestamp = timestamp
 
     @property
-    def formatted_timestamp(self):
+    def formatted_timestamp(self) -> str:
         """Return the timestamp in a formatted string (YYYY-MM-DD HH:MM:SS)"""
         return datetime.fromtimestamp(self.timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
 
 class OrderManager:
     DATABASE_FILE = 'database.db'
     TIMEZONE_OFFSET = 0  # Assuming offset in seconds
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the OrderManager instance by connecting to the database and creating a cursor"""
         self.connection = sqlite3.connect(self.DATABASE_FILE)
         self.cursor = self.connection.cursor()
@@ -38,29 +39,29 @@ class OrderManager:
         """)
         self.connection.commit()
 
-    def get_active_orders(self):
+    def get_active_orders(self) -> list:
         """Retrieve all active orders (orders that are not completed) from the database"""
         self.cursor.execute('SELECT * FROM orders WHERE is_open = 1')
         return self.cursor.fetchall()
 
-    def get_order_by_id(self, order_id):
+    def get_order_by_id(self, order_id: int) -> list:
         """Get the information about exact order by knowing only its ID"""
         self.cursor.execute('SELECT * FROM orders WHERE order_id = ?', (order_id,))
         return self.cursor.fetchone()
 
-    def insert_order(self, tgid, tg_nickname, product):
+    def insert_order(self, tgid: int, tg_nickname: str, product: str) -> None:
         """Insert a new order into the database with the provided details and mark it as open"""
         timestamp = round(time.time()) + self.TIMEZONE_OFFSET
         values = (tgid, tg_nickname, product, 1, timestamp)
         self.cursor.execute("INSERT INTO orders(tgid, tg_nickname, product, is_open, timestamp) VALUES (?, ?, ?, ?, ?)", values)
         self.connection.commit()
 
-    def delete_order(self, order_id):
+    def delete_order(self, order_id: int) -> None:
         """Delete the order"""
         self.cursor.execute('DELETE FROM orders WHERE order_id = ?', (order_id,))
         self.connection.commit()
 
-    def close_connection(self):
+    def close_connection(self) -> None:
         self.connection.close()
 
 
