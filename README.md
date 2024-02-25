@@ -7,7 +7,7 @@
  A telegram bot for online-shopping 
  
 ## Installing
-Download the project to your local machine.
+Clone the project to your local machine.
 ```console
 $ git clone https://github.com/anekobtw/telegram-shop-bot.git
 ```
