@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/anekobtw/zverskly-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/zverskly-bot)
 ![made with love](https://img.shields.io/badge/Made_with-Love-red)
 
- A telegram bot for online-shopping 
+Customizable telegram shop bot
  
 ## Installing
 Clone the project to your local machine.
