@@ -1,7 +1,6 @@
 import logging
 
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
+from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils import executor
 from aiogram.utils.callback_data import CallbackData
@@ -10,8 +9,7 @@ import config
 import database
 
 # <<< Constants >>>
-# Enter here your telegram id. @getmyid_bot may help you
-admins = {1718021890}
+admins = config.admins
 order_manager = database.OrderManager()
 order_cb = CallbackData('order', 'action', 'item')
 
@@ -31,9 +29,9 @@ async def notify_admins_order(order_id: int) -> None:
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton(text='Items', callback_data='items'))
-    keyboard.add(InlineKeyboardButton(text='My orders', callback_data='my_orders'))
-    keyboard.add(InlineKeyboardButton(text='Developer', callback_data='developer'))
+    keyboard.add(InlineKeyboardButton(text='Check the shop', callback_data='items'),
+                 InlineKeyboardButton(text='My orders', callback_data='my_orders'),
+                 InlineKeyboardButton(text='Developer', callback_data='developer'))
 
     await message.answer(f'Hi!, {message.from_user.mention}!', reply_markup=keyboard)
 
@@ -47,57 +45,64 @@ async def process_callback_items(callback_query: types.CallbackQuery):
 @dp.callback_query_handler(lambda c: c.data == 'my_orders')
 async def process_callback_my_orders(callback_query: types.CallbackQuery):
     await callback_query.answer()
-    await my_orders(callback_query.message)
+    orders_data = order_manager.get_user_orders(callback_query.from_user.id)
+    if orders_data:
+        orders_text = "\n".join(database.Order(*order_data).all_data() for order_data in orders_data)
+        await bot.send_message(chat_id=callback_query.from_user.id, text=orders_text)
+    else:
+        await bot.send_message(chat_id=callback_query.from_user.id, text="You don't have any orders yet.")
 
 
 @dp.callback_query_handler(lambda c: c.data == 'developer')
 async def process_callback_developer(callback_query: types.CallbackQuery):
-    await callback_query.answer('Bot developer is @anekobtw\nTelegram channel: @anekobtww\nGithub: https://github.com/anekobtw')
+    await bot.send_message(chat_id=callback_query.from_user.id, text='''Bot developer is @anekobtw
+Telegram channel: @anekobtww
+Github: https://github.com/anekobtw
+Source code of this bot: https://github.com/anekobtw/telegram-shop-bot''')
 
 
 # <<< Items >>>
 @dp.message_handler(commands=['items'])
 async def items(message: types.Message):
     keyboard = InlineKeyboardMarkup()
-    for key, value in config.items.items():
-        keyboard.add(InlineKeyboardButton(text=f'{key} - {value}{config.currency}', callback_data=order_cb.new(action='create', item=key)))
+    for item, price in config.items.items():
+        keyboard.add(InlineKeyboardButton(text=f'{item} - {price}{config.currency}',
+                                          callback_data=order_cb.new(action='create', item=item)))
 
     await message.answer(text='Choose the product to buy:', reply_markup=keyboard)
 
 
 @dp.callback_query_handler(order_cb.filter(action='create'))
-async def vote_up_cb_handler(query: types.CallbackQuery, callback_data: dict):
+async def order_cb_handler(query: types.CallbackQuery, callback_data: dict):
     item = callback_data['item']
-    order_manager.insert_order(tgid=query.from_user.id, tg_nickname=query.from_user.full_name, product=item)
-    latest_order = order_manager.get_active_orders()[-1]
-    order_id = database.Order(*latest_order).order_id
+    order_manager.insert_order(query.from_user.id, query.from_user.full_name, item)
+    order_id = database.Order(*order_manager.get_active_orders()[-1]).order_id
 
-    await bot.send_message(chat_id=query.from_user.id, text=f'You bought {item} that costs {config.items[item]}{config.currency}!\nOrder_id: {order_id}\n\nHowever, if it was an accident, you may delete your purchase by simply typing /delete_order {order_id}')
+    text = f'''You\'ve bought {item} that costs {config.items[item]}{config.currency}
+Order_id: {order_id}
+However, if it was an accident, you may delete your purchase by simply typing /delete_order {order_id}'''
+    await bot.send_message(chat_id=query.from_user.id, text=text)
     await notify_admins_order(order_id=order_id)
-
-
-# <<< My Orders >>>
-@dp.message_handler(commands=['my_orders'])
-async def my_orders(message: types.Message):
-    await message.answer('under development')  # TODO: print user's orders
 
 
 # <<< Admin commands >>>
 @dp.message_handler(commands=['orders'])
 async def orders(message: types.Message):
-    arguments = message.get_args()
     if message.from_user.id in admins:
-        orders = database.get_all_orders_by_status(arguments[0])
-        for order in orders:
-            await message.answer(database.get_order_info(order))
+        orders_data = order_manager.get_active_orders()
+        for order_data in orders_data:
+            order_obj = database.Order(*order_data)
+            await message.answer(order_obj.all_data())
 
 
 @dp.message_handler(commands=['next'])
 async def next1(message: types.Message):
-    await message.answer(database.get_first_order())
+    orders_data = order_manager.get_active_orders()
+    order_obj = database.Order(*orders_data[0])
+    await message.answer(order_obj.all_data())
 
 
-# <<< User-specific commands >>>
+# <<< Others >>>
 @dp.message_handler(commands=['delete_order'])
 async def delete_order(message: types.Message):
     try:
@@ -106,8 +111,10 @@ async def delete_order(message: types.Message):
     except (ValueError, IndexError):
         await message.answer('The command is used incorrectly. Please, provide me with the order id. Example:\n/delete_order 4 ')
     else:
-        order_manager.delete_order(order_id=order_id)
-        await message.answer(f'Order {order_id} was deleted successfully.')
+        order_data = order_manager.get_order(order_id)
+        if database.Order(*order_data).tgid == message.from_user.id:
+            order_manager.delete_order(order_id=order_id)
+            await message.answer(f'Order {order_id} was deleted successfully.')
 
 if __name__ == '__main__':
     executor.start_polling(dp)

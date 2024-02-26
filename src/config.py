@@ -1,10 +1,17 @@
-BOT_TOKEN = ''  #replace with your token
-VERSION = 'beta 1.3'
+# Insert here your bot token here
+BOT_TOKEN = '6946531325:AAGAaYECLoJK2rhfuRSOcZwmHUjtHZcaLrY'
+
+# Enter here the shop owners' telegram ids (@getmyid_bot may help you)
+# You may add as much as you can, but I recommend not to add too much.
+admins = {1718021890}
 
 currency = '$'
 
 items = {
-    'Item1': 100,
-    'Item2': 200,
-    'Item3': 500
+    'tissue box': 10,
+    'magnet': 20,
+    'table': 50,
+    'glow stick': 30,
+    'bottle cap': 20,
+    'toothpaste': 15
 }
