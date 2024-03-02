@@ -1,5 +1,5 @@
 # Insert here your bot token here
-BOT_TOKEN = '6946531325:AAGAaYECLoJK2rhfuRSOcZwmHUjtHZcaLrY'
+BOT_TOKEN = ''
 
 # Enter here the shop owners' telegram ids (@getmyid_bot may help you)
 # You may add as much as you can, but I recommend not to add too much.
