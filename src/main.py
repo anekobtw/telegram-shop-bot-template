@@ -1,12 +1,11 @@
 import logging
 
+import config
+import database
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils import executor
 from aiogram.utils.callback_data import CallbackData
-
-import config
-import database
 
 # <<< Constants >>>
 admins = config.admins
