@@ -1,7 +1,7 @@
-# Telegram shop bot
+# Telegram shop bot template
 ![licence](https://img.shields.io/badge/License-MIT-green.svg)
 ![version](https://img.shields.io/badge/Version-v1.3_beta-blue)
-[![codecov](https://codecov.io/gh/anekobtw/telegram-shop-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/telegram-shop-bot)
+[![codecov](https://codecov.io/gh/anekobtw/telegram-shop-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/telegram-shop-bot-template)
 ![made with love](https://img.shields.io/badge/Made_with-Love-red)
 
 Customizable telegram shop bot
