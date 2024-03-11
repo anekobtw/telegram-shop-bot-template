@@ -9,7 +9,7 @@ Customizable telegram shop bot
 ## Installing
 Clone the project to your local machine.
 ```console
-$ git clone https://github.com/anekobtw/telegram-shop-bot.git
+$ git clone https://github.com/anekobtw/telegram-shop-bot-template.git
 ```
 
 ## Setting up
