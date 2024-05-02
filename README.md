@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-# Telegram shop bot
 i dont like this project tbh :\
 
-=======
 # Telegram shop bot template
->>>>>>> 615f435077519525ac5276bafc4272ea6bfd3683
 ![licence](https://img.shields.io/badge/License-MIT-green.svg)
 ![version](https://img.shields.io/badge/Version-v1.3_beta-blue)
 [![codecov](https://codecov.io/gh/anekobtw/telegram-shop-bot/graph/badge.svg?token=TXQWSC0UR9)](https://codecov.io/gh/anekobtw/telegram-shop-bot-template)
